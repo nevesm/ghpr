@@ -1,26 +1,29 @@
 #!/bin/bash
 gh config set pager cat
+echo "-----------------------------------------------------------------------------"
 echo "APROVADOR DE PR 2.0 TURBO"
-echo " "
-echo "Alterações:"
+echo "PR: $1"
 echo "-----------------------------------------------------------------------------"
-gh pr diff --patch $1
-echo "-----------------------------------------------------------------------------"
-echo " "
-echo " "
-echo " "
-echo " "
-echo " "
-echo "Comentários:"
-echo "-----------------------------------------------------------------------------"
-gh pr view -c $1
-echo "-----------------------------------------------------------------------------"
-echo " "
-echo " "
-echo "APROVAR?"
-select sn in "Sim" "Nao"; do
-    case $sn in
-        Sim ) gh pr review -a $1; break;;
-        Nao ) echo "PR não aprovada"; exit;;
+
+PS3="Selecione uma opção (1-4): "
+MENU='1) Alteracoes\n2) Comentarios\n3) Aprovar\n4) Sair'
+
+select options in "Alteracoes" "Comentarios" "Aprovar" "Sair"; do
+    case $options in
+        Alteracoes )
+            gh pr diff --patch $1
+            echo "-----------------------------------------------------------------------------"
+            echo | sed "i$MENU";;
+        Comentarios )
+            gh pr view -c $1
+            echo "-----------------------------------------------------------------------------"
+            echo | sed "i$MENU";;
+        Aprovar )
+            gh pr review -a $1
+            echo "-----------------------------------------------------------------------------"
+            echo "PR aprovada!";;
+        Sair )
+            echo "PR não aprovada"
+            exit;;
     esac
 done
