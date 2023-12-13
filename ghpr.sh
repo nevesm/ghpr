@@ -21,7 +21,8 @@ select options in "Alteracoes" "Comentarios" "Aprovar" "Sair"; do
         Aprovar )
             gh pr review -a $1
             echo "-----------------------------------------------------------------------------"
-            echo "PR aprovada!";;
+            echo "PR aprovada!"
+            exit;;
         Sair )
             echo "PR não aprovada"
             exit;;
